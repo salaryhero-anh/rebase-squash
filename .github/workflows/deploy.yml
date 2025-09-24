@@ -1,0 +1,32 @@
+name: Deploy to Environment
+
+on:
+  push:
+    branches:
+      - dev
+      - staging
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    environment:
+      name: ${{ github.ref_name == 'main' && 'production' || github.ref_name == 'staging' && 'staging' || github.ref_name == 'dev' && 'development' }}
+
+    steps:
+      - name: Echo checkout
+        run: echo "Checkout code"
+
+      - name: Echo setup Node.js
+        run: echo "Setup Node.js"
+
+      - name: Echo install dependencies
+        run: echo "Install dependencies"
+
+      - name: Echo run tests
+        run: echo "Run tests"
+
+      - name: Echo deploy to environment
+        run: |
+          echo "Deploying to ${{ github.ref_name }} branch and ${{ github.job }} environment"
